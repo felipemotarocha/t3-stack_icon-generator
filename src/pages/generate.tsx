@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 
 import FormGroup from "~/components/FormGroup";
 import Input from "~/components/Input";
+import { api } from "~/utils/api";
 
 interface GenerateForm {
   prompt: string;
@@ -14,8 +15,14 @@ const Generate: NextPage = () => {
     defaultValues: { prompt: "" },
   });
 
-  const _handleSubmit = (data: GenerateForm) => {
-    console.log({ data });
+  const generateIcon = api.generate.generateIcon.useMutation();
+
+  const _handleSubmit = async (data: GenerateForm) => {
+    try {
+      await generateIcon.mutateAsync({ prompt: data.prompt });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
