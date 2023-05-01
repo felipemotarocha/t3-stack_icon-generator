@@ -1,6 +1,8 @@
 import { type NextPage } from "next";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Head from "next/head";
+import Image from "next/image";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import Button from "~/components/Button";
@@ -14,7 +16,9 @@ interface GenerateForm {
 }
 
 const Generate: NextPage = () => {
-  const { register, handleSubmit } = useForm<GenerateForm>({
+  const [imageUrl, setImageUrl] = useState<string>("");
+
+  const { register, handleSubmit, reset } = useForm<GenerateForm>({
     defaultValues: { prompt: "" },
   });
 
@@ -24,7 +28,11 @@ const Generate: NextPage = () => {
 
   const _handleSubmit = async (data: GenerateForm) => {
     try {
-      await generateIcon.mutateAsync({ prompt: data.prompt });
+      const response = await generateIcon.mutateAsync({ prompt: data.prompt });
+
+      setImageUrl(response.imageUrl!);
+
+      reset();
     } catch (error) {
       console.error(error);
     }
@@ -66,6 +74,15 @@ const Generate: NextPage = () => {
             Submit
           </button>
         </form>
+
+        {imageUrl && (
+          <Image
+            src={imageUrl}
+            alt="An image of your generated prompt"
+            width={100}
+            height={100}
+          />
+        )}
       </main>
     </>
   );
