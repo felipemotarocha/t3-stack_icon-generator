@@ -1,9 +1,12 @@
 import { type NextPage } from "next";
+import { signIn, signOut, useSession } from "next-auth/react";
 import Head from "next/head";
 import { useForm } from "react-hook-form";
 
+import Button from "~/components/Button";
 import FormGroup from "~/components/FormGroup";
 import Input from "~/components/Input";
+
 import { api } from "~/utils/api";
 
 interface GenerateForm {
@@ -15,6 +18,8 @@ const Generate: NextPage = () => {
     defaultValues: { prompt: "" },
   });
 
+  const session = useSession();
+
   const generateIcon = api.generate.generateIcon.useMutation();
 
   const _handleSubmit = async (data: GenerateForm) => {
@@ -25,6 +30,16 @@ const Generate: NextPage = () => {
     }
   };
 
+  const handleLogin = () => {
+    signIn().catch(console.error);
+  };
+
+  const handleLogout = () => {
+    signOut().catch(console.error);
+  };
+
+  const isLoggedIn = !!session?.data;
+
   return (
     <>
       <Head>
@@ -33,6 +48,8 @@ const Generate: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center">
+        {!isLoggedIn && <Button onClick={handleLogin}>Login</Button>}
+        {isLoggedIn && <Button onClick={handleLogout}>Logout</Button>}
         <form className="flex flex-col gap-4">
           <FormGroup>
             <label>Prompt</label>
