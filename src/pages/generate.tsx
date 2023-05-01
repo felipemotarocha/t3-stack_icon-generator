@@ -30,7 +30,7 @@ const Generate: NextPage = () => {
     try {
       const response = await generateIcon.mutateAsync({ prompt: data.prompt });
 
-      setImageUrl(response.imageUrl!);
+      setImageUrl(response.image!);
 
       reset();
     } catch (error) {
@@ -76,11 +76,16 @@ const Generate: NextPage = () => {
         </form>
 
         {imageUrl && (
-          <Image
-            src={imageUrl}
+          // <Image
+          //   src={imageUrl}
+          //   alt="An image of your generated prompt"
+          //   width={100}
+          //   height={100}
+          // />
+
+          <img
+            src={`data:image/png;base64,${imageUrl}`}
             alt="An image of your generated prompt"
-            width={100}
-            height={100}
           />
         )}
       </main>

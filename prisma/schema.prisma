@@ -56,6 +56,7 @@ model User {
     credits       Int       @default(5)
     accounts      Account[]
     sessions      Session[]
+    icons         Icon[]
 }
 
 model VerificationToken {
@@ -64,4 +65,11 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+model Icon {
+    id     String @id @default(cuid())
+    prompt String?
+    User   User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId String?
 }
