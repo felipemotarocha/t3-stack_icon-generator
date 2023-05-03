@@ -15,6 +15,8 @@ const s3 = new AWS.S3({
   },
 });
 
+const BUCKET_NAME = "icon-generator-course-fmrocha";
+
 const configuration = new Configuration({
   apiKey: env.DALLE_API_KEY,
 });
@@ -75,13 +77,13 @@ export const generateRouter = createTRPCRouter({
           Key: icon.id + ".png",
           ContentEncoding: "base64",
           ContentType: "image/png",
-          Bucket: "icon-generator-course-fmrocha",
+          Bucket: BUCKET_NAME,
           Body: Buffer.from(base64EncodedImage!, "base64"),
         })
         .promise();
 
       return {
-        image: base64EncodedImage,
+        imageUrl: `https://icon-generator-course-fmrocha.s3.sa-east-1.amazonaws.com/${icon.id}.png`,
       };
     }),
 });

@@ -30,7 +30,7 @@ const Generate: NextPage = () => {
     try {
       const response = await generateIcon.mutateAsync({ prompt: data.prompt });
 
-      setImageUrl(response.image!);
+      setImageUrl(response.imageUrl);
 
       reset();
     } catch (error) {
@@ -65,7 +65,7 @@ const Generate: NextPage = () => {
           </FormGroup>
 
           <button
-            className="rounded bg-blue-400 px-4 py-2 hover:bg-blue-500"
+            className="mb-4 rounded bg-blue-400 px-4 py-2 hover:bg-blue-500"
             onClick={(e) => {
               e.preventDefault();
               void handleSubmit(_handleSubmit)(e);
@@ -76,16 +76,11 @@ const Generate: NextPage = () => {
         </form>
 
         {imageUrl && (
-          // <Image
-          //   src={imageUrl}
-          //   alt="An image of your generated prompt"
-          //   width={100}
-          //   height={100}
-          // />
-
-          <img
-            src={`data:image/png;base64,${imageUrl}`}
+          <Image
+            src={imageUrl}
             alt="An image of your generated prompt"
+            width={150}
+            height={150}
           />
         )}
       </main>

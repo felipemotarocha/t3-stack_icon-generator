@@ -19,7 +19,7 @@ const config = {
     defaultLocale: "en",
   },
   images: {
-    domains: ["picsum.photos"],
+    domains: ["icon-generator-course-fmrocha.s3.sa-east-1.amazonaws.com"],
   },
 };
 export default config;
