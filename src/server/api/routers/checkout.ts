@@ -13,6 +13,9 @@ export const checkoutRouter = createTRPCRouter({
       cancel_url: `${env.HOST_NAME}/cancel`,
       line_items: [{ price: env.PRICE_ID, quantity: 1 }],
       mode: "payment",
+      metadata: {
+        userId: ctx.session.user.id,
+      },
     });
   }),
 });

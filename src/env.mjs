@@ -26,6 +26,7 @@ const server = z.object({
   AWS_SECRET_ACCESS_KEY: z.string(),
   AWS_ACCESS_KEY: z.string(),
   STRIPE_SECRET_KEY: z.string(),
+  STRIPE_WEBHOOK_SECRET: z.string(),
   HOST_NAME: z.string(),
   PRICE_ID: z.string(),
 });
@@ -62,6 +63,7 @@ const processEnv = {
   STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
   HOST_NAME: process.env.HOST_NAME,
   PRICE_ID: process.env.PRICE_ID,
+  STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
   // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
 };
 
