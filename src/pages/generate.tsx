@@ -10,12 +10,15 @@ import FormGroup from "~/components/FormGroup";
 import Input from "~/components/Input";
 
 import { api } from "~/utils/api";
+import useBuyCredits from "~/hooks/useBuyCredits";
 
 interface GenerateForm {
   prompt: string;
 }
 
 const Generate: NextPage = () => {
+  const { buyCredits } = useBuyCredits();
+
   const [imageUrl, setImageUrl] = useState<string>("");
 
   const { register, handleSubmit, reset } = useForm<GenerateForm>({
@@ -57,7 +60,17 @@ const Generate: NextPage = () => {
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center">
         {!isLoggedIn && <Button onClick={handleLogin}>Login</Button>}
-        {isLoggedIn && <Button onClick={handleLogout}>Logout</Button>}
+        {isLoggedIn && (
+          <>
+            <Button
+              // eslint-disable-next-line @typescript-eslint/no-misused-promises
+              onClick={() => buyCredits().catch(console.error)}
+            >
+              Buy Credits
+            </Button>
+            <Button onClick={handleLogout}>Logout</Button>
+          </>
+        )}
         <form className="flex flex-col gap-4">
           <FormGroup>
             <label>Prompt</label>

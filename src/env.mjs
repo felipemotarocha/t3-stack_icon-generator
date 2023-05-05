@@ -25,6 +25,9 @@ const server = z.object({
   MOCK_DALLE: z.string(),
   AWS_SECRET_ACCESS_KEY: z.string(),
   AWS_ACCESS_KEY: z.string(),
+  STRIPE_SECRET_KEY: z.string(),
+  HOST_NAME: z.string(),
+  PRICE_ID: z.string(),
 });
 
 /**
@@ -32,11 +35,10 @@ const server = z.object({
  * built with invalid env vars. To expose them to the client, prefix them with `NEXT_PUBLIC_`.
  */
 const client = z.object(
-  /** @satisfies {Record<`NEXT_PUBLIC_${string}`, import('zod').ZodType>} */ (
-    {
-      // NEXT_PUBLIC_CLIENTVAR: z.string().min(1),
-    }
-  )
+  /** @satisfies {Record<`NEXT_PUBLIC_${string}`, import('zod').ZodType>} */ ({
+    // NEXT_PUBLIC_CLIENTVAR: z.string().min(1),
+    NEXT_PUBLIC_STRIPE_PUBLIC_KEY: z.string(),
+  })
 );
 
 /**
@@ -56,6 +58,10 @@ const processEnv = {
   MOCK_DALLE: process.env.MOCK_DALLE,
   AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
   AWS_ACCESS_KEY: process.env.AWS_ACCESS_KEY,
+  NEXT_PUBLIC_STRIPE_PUBLIC_KEY: process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY,
+  STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
+  HOST_NAME: process.env.HOST_NAME,
+  PRICE_ID: process.env.PRICE_ID,
   // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
 };
 
