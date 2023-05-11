@@ -1,31 +1,24 @@
 import { type NextPage } from "next";
-import { useSession } from "next-auth/react";
 import Head from "next/head";
 import Image from "next/image";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
-import Button from "~/components/Button";
 import FormGroup from "~/components/FormGroup";
 import Input from "~/components/Input";
 
 import { api } from "~/utils/api";
-import useBuyCredits from "~/hooks/useBuyCredits";
 
 interface GenerateForm {
   prompt: string;
 }
 
 const Generate: NextPage = () => {
-  const { buyCredits } = useBuyCredits();
-
   const [imageUrl, setImageUrl] = useState<string>("");
 
   const { register, handleSubmit, reset } = useForm<GenerateForm>({
     defaultValues: { prompt: "" },
   });
-
-  const session = useSession();
 
   const generateIcon = api.generate.generateIcon.useMutation();
 
@@ -41,8 +34,6 @@ const Generate: NextPage = () => {
     }
   };
 
-  const isLoggedIn = !!session?.data;
-
   return (
     <>
       <Head>
@@ -51,16 +42,6 @@ const Generate: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center">
-        {isLoggedIn && (
-          <>
-            <Button
-              // eslint-disable-next-line @typescript-eslint/no-misused-promises
-              onClick={() => buyCredits().catch(console.error)}
-            >
-              Buy Credits
-            </Button>
-          </>
-        )}
         <form className="flex flex-col gap-4">
           <FormGroup>
             <label>Prompt</label>
